@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 export function Reviews(props) {
   const { movieId } = useParams();
   const apiService = new getReviewsAPI();
-  const [reviews, setReviews] = use,State([]);
+  const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
 
   const fetchReviews = useCallback(async () => {
