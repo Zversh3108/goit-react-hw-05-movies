@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SearchMovies from 'services/getMoviesByName';
 import { Link } from 'react-router-dom';
 export function Movies(props) {

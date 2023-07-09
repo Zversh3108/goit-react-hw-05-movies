@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useEffect, useState } from 'react';
 import getMovieInfo from 'services/getMovieInfo';
 import { Outlet, Link, useNavigate } from 'react-router-dom';
@@ -19,7 +20,7 @@ export function MovieDetails() {
 
   useEffect(() => {
     fetchMovies();
-  }, []);
+  }, [movieId]);
   const goBackHandle = () => {
     navigate(-1);
   };
