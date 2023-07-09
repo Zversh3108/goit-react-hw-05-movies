@@ -24,7 +24,7 @@ export function Reviews(props) {
 
   useEffect(() => {
     fetchReviews();
-  }, [movieId]);
+  }, [fetchReviews ]);
 
   if (error) {
     return <div>Error. No reviews </div>;
