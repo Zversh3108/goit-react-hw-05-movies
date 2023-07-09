@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useCallback } from 'react';
+import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import getReviewsAPI from 'services/getReviews';
 import { useParams } from 'react-router-dom';
 
 export function Reviews(props) {
   const { movieId } = useParams();
-  const apiService = new getReviewsAPI();
+  const apiService = useMemo(() => new getReviewsAPI(), []);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
 
@@ -16,18 +16,15 @@ export function Reviews(props) {
       setError(error);
     }
   }, [apiService, movieId]);
-  useEffect(() => {
-    if (!reviews) {
-      return <div>Loading...</div>;
-    }
-  });
 
   useEffect(() => {
-    fetchReviews();
-  }, [fetchReviews]);
+    if (!reviews.length) {
+      fetchReviews();
+    }
+  }, [fetchReviews, reviews.length]);
 
   if (error) {
-    return <div>Error. No reviews </div>;
+    return <div>Error. No reviews</div>;
   }
 
   return (
