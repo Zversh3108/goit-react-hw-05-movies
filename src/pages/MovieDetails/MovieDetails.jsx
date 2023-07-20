@@ -48,7 +48,7 @@ const MovieDetails = () => {
     if (!movieInfo) {
       fetchDetails();
     }
-  }, [movieInfo, movieId]);
+  });
 
   if (isError) {
     return <Error>We don't have details about this movie</Error>;

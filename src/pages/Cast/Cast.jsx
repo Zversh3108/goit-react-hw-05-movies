@@ -11,6 +11,7 @@ import {
   CharacterName,
   ActorImage,
 } from './Cast.Styled';
+
 const Cast = () => {
   const { movieId } = useParams();
   const apiService = useMemo(() => new getCastInfo(), []);
@@ -24,7 +25,7 @@ const Cast = () => {
     } catch (error) {
       setIsError(error);
     }
-  });
+  }, [apiService, movieId, setCastInfo]);
 
   useEffect(() => {
     if (!castInfo.length > 0) {

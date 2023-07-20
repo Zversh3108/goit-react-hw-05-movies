@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
 
 import SearchMovies from 'services/getMoviesByName';
 import Error from 'components/Error/Error';
@@ -16,7 +16,7 @@ import {
 } from './Movies.Styled';
 
 const Movies = () => {
-  const apiService = new SearchMovies();
+  const apiService = useMemo(() => new SearchMovies(), []);
   const location = useLocation();
 
   const [movies, setMovies] = useState([]);
@@ -31,7 +31,7 @@ const Movies = () => {
     const nextParams = query !== '' ? { query } : {};
     setSearchParams(nextParams);
   };
-  async function fetchMovies() {
+  const fetchMovies = useCallback(async () => {
     setIsError(false);
     try {
       const response = await apiService.getMovies(searchInput);
@@ -40,17 +40,23 @@ const Movies = () => {
       setIsError(error);
     } finally {
     }
-  }
+  }, [apiService, searchInput, setMovies]);
+
   useEffect(() => {
     if (!searchInput) {
       return;
     }
+  });
+  useEffect(() => {
+    if (!movieName) {
+      return;
+    }
     fetchMovies();
-  }, []);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [movieName]);
   const handleSearch = event => {
     event.preventDefault();
     updateQueryString(searchInput);
-    fetchMovies();
   };
   const handleInputChange = event => {
     setSearchInput(event.target.value);
