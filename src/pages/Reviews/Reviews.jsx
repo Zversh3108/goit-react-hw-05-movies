@@ -1,14 +1,22 @@
 import React, { useEffect, useState, useCallback, useMemo } from 'react';
 import getReviewsAPI from 'services/getReviews';
 import { useParams } from 'react-router-dom';
-
-export function Reviews(props) {
+import Error from 'components/Error/Error';
+import {
+  ReviewContent,
+  ReviewList,
+  ReviewItem,
+  ReviewsContainer,
+  ReviewAuthor,
+} from './Reviews.Styled';
+const Reviews = props => {
   const { movieId } = useParams();
   const apiService = useMemo(() => new getReviewsAPI(), []);
   const [reviews, setReviews] = useState([]);
   const [error, setError] = useState(null);
 
   const fetchReviews = useCallback(async () => {
+    setError(false);
     try {
       const response = await apiService.getReviews(movieId);
       setReviews(response.results.results);
@@ -23,24 +31,21 @@ export function Reviews(props) {
     }
   }, [fetchReviews, reviews.length]);
 
-  if (error) {
-    return <div>Error. No reviews</div>;
-  }
-
   return (
-    <div>
-      {reviews.length > 0 ? (
-        <ul>
+    <ReviewsContainer>
+      {reviews.length > 0 && !error ? (
+        <ReviewList>
           {reviews.map(review => (
-            <li key={review.id}>
-              <h3>{review.author}</h3>
-              <p>{review.content}</p>
-            </li>
+            <ReviewItem key={review.id}>
+              <ReviewAuthor>{review.author}</ReviewAuthor>
+              <ReviewContent>{review.content}</ReviewContent>
+            </ReviewItem>
           ))}
-        </ul>
+        </ReviewList>
       ) : (
-        <div>We don't have any reviews for this movie</div>
+        <Error>We don't have any reviews for this movie</Error>
       )}
-    </div>
+    </ReviewsContainer>
   );
-}
+};
+export default Reviews;

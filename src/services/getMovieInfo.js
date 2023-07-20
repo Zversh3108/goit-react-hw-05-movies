@@ -10,7 +10,7 @@ export default class getMovieInfo {
     },
   };
 
-  async getMovies(id) {
+  async getMovieDetails(id) {
     try {
       const response = await axios.get(
         `https://api.themoviedb.org/3/movie/${id}?language=en-US`,
