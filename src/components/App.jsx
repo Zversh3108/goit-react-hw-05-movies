@@ -1,6 +1,9 @@
 import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import SharedLayout from './SharedLayout/SharedLayout';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { Theme} from './Theme';
+
 const Error = lazy(() => import('../components/Error/Error'));
 const Home = lazy(() => import('../pages/Home/Home'));
 const Movies = lazy(() => import('../pages/Movies/Movies'));
@@ -8,9 +11,11 @@ const MovieDetails = lazy(() => import('../pages/MovieDetails/MovieDetails'));
 const Cast = lazy(() => import('../pages/Cast/Cast'));
 const Reviews = lazy(() => import('../pages/Reviews/Reviews'));
 
+
 export const App = () => {
   return (
     <div>
+          <ThemeProvider theme={Theme}>
       <Routes>
         <Route path="/" element={<SharedLayout />}>
           <Route index element={<Home />} />
@@ -21,8 +26,10 @@ export const App = () => {
           </Route>
           <Route path="*" element={<Error>404 Page not found</Error>} />
         </Route>
-        s
+  
       </Routes>
+      </ThemeProvider>
     </div>
   );
 };
+
